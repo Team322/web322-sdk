@@ -12,7 +12,7 @@ contract ChatGPTClient is Web322Client {
     string answer = "";
     uint256 constant amount = 0.000001 ether;
 
-    event ChatGPTAnswer(uint256 requestId, string answer);
+    event ChatGPTAnswer(uint256 requestId, string answer, bytes20 verification_hash);
 
     constructor(address oracle_addr, address admin_addr) {
         setAddresses(oracle_addr, admin_addr);
@@ -36,9 +36,10 @@ contract ChatGPTClient is Web322Client {
 
     function fulfill(
         uint256 _requestId,
-        string memory _answer
+        string memory _answer,
+        bytes20 verificationHash
     ) public recordWeb322Fulfillment(_requestId) {
-        emit ChatGPTAnswer(_requestId, _answer);
+        emit ChatGPTAnswer(_requestId, _answer, verificationHash);
         answer = _answer;
     }
 }
