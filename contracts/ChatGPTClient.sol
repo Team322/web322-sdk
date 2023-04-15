@@ -25,9 +25,9 @@ contract ChatGPTClient is Web322Client {
         );
         // header, param and data
         // parameters only as string
-        request.add("prompt", prompt);
-        request.add("temperature", "0");
-        request.add("logprobs", "false");
+        request.addHeader("Content-Type", "application/json");
+        request.addHeader("Authorization", "Bearer $OPENAI_API_KEY");
+        request.addData('{"model":"gpt-3.5-turbo","messages":[{"role":"user","content":"Say this is a test!"}],"temperature":0.7}');
 
         n_request += 1;
         

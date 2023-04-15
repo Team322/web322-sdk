@@ -35,4 +35,29 @@ library Web322 {
         self.params.encodeString(key);
         self.params.encodeString(value);
     }
+
+    function addHeader(
+        Request memory self,
+        string memory key,
+        string memory value
+    ) internal pure {
+        self.params.encodeString(string.concat("H", key));
+        self.params.encodeString(value);
+    }
+
+    function addParam(
+        Request memory self,
+        string memory key,
+        string memory value
+    ) internal pure {
+        self.params.encodeString(string.concat("P", key));
+        self.params.encodeString(value);
+    }
+
+    function addData(
+        Request memory self,
+        string memory value
+    ) internal pure {
+        self.params.encodeString(string.concat("D", value));
+    }
 }
