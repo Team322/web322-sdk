@@ -12,15 +12,24 @@ async function main() {
 
   const lockedAmount = hre.ethers.utils.parseEther("0.001");
 
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+  const Web322 = await hre.ethers.getContractFactory("Web322");
+  const web322 = await Web322.deploy();
 
-  await lock.deployed();
+  await web322.deployed();
+
+  const ChatGPTClient = await hre.ethers.getContractFactory("ChatGPTClient", { 
+      libraries: {
+        Web322: web322.address,
+      }
+  });
+  const chatgptclient = await ChatGPTClient.deploy();
+  // return;
+  await chatgptclient.deployed();
 
   console.log(
     `Lock with ${ethers.utils.formatEther(
       lockedAmount
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
+    )}ETH and unlock timestamp ${unlockTime} deployed to ${chatgptclient.address}`
   );
 }
 

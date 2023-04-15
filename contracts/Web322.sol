@@ -9,14 +9,14 @@ library Web322 {
     uint256 internal constant defaultBufferSize = 256;
 
     struct Request {
-        bytes32 id;
+        uint256 id;
         // address callbackAddr;
         Buffer.buffer params;
     }
 
     function initialize(
         Request memory self,
-        bytes32 id
+        uint256 id
         // address callbackAddr
     ) pure public returns (Request memory) {
         Buffer.buffer memory params;

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
-import "@web322/contracts/Web322Client.sol";
-
+import "./Web322Client.sol";
+import "./Web322.sol";
 
 contract ChatGPTClient is Web322Client {
     using Web322 for Web322.Request;
@@ -10,15 +10,14 @@ contract ChatGPTClient is Web322Client {
     string constant prompt = "Draw a unicorn in TikZ";
     string constant openai_endpoint = "ai.com";
     string answer = "";
-    uint256 n_request = 0;
+    uint256 constant amount = 0.000001 ether;
 
-    event ChatGPTAnswer(bytes32 indexed requestId, string answer);
+    event ChatGPTAnswer(uint256 requestId, string answer);
 
-    function requestUnicorn() public returns (bytes32 requestId) {
+    function requestUnicorn() external payable {
         Web322.Request memory request = buildWeb2Request(
             n_request,
-            openai_endpoint,
-            address(this)
+            openai_endpoint
         );
         
         // parameters only as string
@@ -28,12 +27,12 @@ contract ChatGPTClient is Web322Client {
 
         n_request += 1;
 
-        return sendWeb322Request(request);
+        sendWeb322Request(request, amount);
     } 
 
     function fulfill(
-        bytes32 _requestId,
-        uint256 _answer
+        uint256 _requestId,
+        string memory _answer
     ) public recordWeb322Fulfillment(_requestId) {
         emit ChatGPTAnswer(_requestId, _answer);
         answer = _answer;

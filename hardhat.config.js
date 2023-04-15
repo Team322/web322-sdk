@@ -9,10 +9,10 @@ module.exports = {
   networks: {
     hardhat: {
     },
-    // sepolia: {
-    //   url: config.sepolia,
-    //   accounts: [config.account],
-    //   // accounts: [privateKey1, privateKey2, ...]
-    // }
+    sepolia: {
+      url: config.sepolia,
+      accounts: [config.account],
+      // accounts: [privateKey1, privateKey2, ...]
+    }
   },
 };
