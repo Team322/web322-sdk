@@ -8,7 +8,7 @@ contract ChatGPTClient is Web322Client {
     using Web322 for Web322.Request;
 
     string constant prompt = "Draw a unicorn in TikZ";
-    string constant openai_endpoint = "ai.com";
+    string constant openai_endpoint = "https://api.openai.com/v1/completions";
     string answer = "";
     uint256 constant amount = 0.000001 ether;
 
@@ -21,13 +21,13 @@ contract ChatGPTClient is Web322Client {
     function requestUnicorn() external payable {
         Web322.Request memory request = buildWeb2Request(
             n_request,
+            "POST",
             openai_endpoint
         );
         // header, param and data
         // parameters only as string
         request.addHeader("Content-Type", "application/json");
-        request.addHeader("Authorization", "Bearer $OPENAI_API_KEY");
-        request.addData('{"model":"gpt-3.5-turbo","messages":[{"role":"user","content":"Say this is a test!"}],"temperature":0.7}');
+        request.addData('{"model": "text-davinci-003","prompt": "Mr. Watson--come here--I want to see you.","max_tokens": 20,"temperature": 0}');
 
         n_request += 1;
         

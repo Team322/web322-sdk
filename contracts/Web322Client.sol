@@ -26,12 +26,13 @@ abstract contract Web322Client {
 
     function buildWeb2Request(
         uint256 requestId,
+        string memory method,
         string memory endpoint
         //address callbackAddr
     ) internal pure returns (Web322.Request memory) {
         Web322.Request memory request;
         request.initialize(requestId); //, callbackAddr);
-        request.add("get", endpoint);
+        request.add(method, endpoint);
         return request;
     }
 

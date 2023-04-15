@@ -13,6 +13,11 @@ module.exports = {
       url: config.sepolia.http,
       accounts: [config.account],
       // accounts: [privateKey1, privateKey2, ...]
-    }
+    },
+    polygon: {
+      url: config.polygon.http,
+      accounts: [config.account],
+      // accounts: [privateKey1, privateKey2, ...]
+    },
   },
 };

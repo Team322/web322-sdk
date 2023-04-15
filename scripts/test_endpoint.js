@@ -39,7 +39,7 @@ const makeRequest = async (contract) => {
   console.log(`methods: ${contract.methods}`)
   // Syntax: contract.methods.<methodname>
   r = await contract.methods.requestUnicorn().send({gas: 1000000, value: '1000000000000'});
-  // console.log(r);
+  console.log(r);
 }
 
 const makeContract = async (network, new_log) => {
@@ -63,12 +63,21 @@ async function main() {
   const network = hre.network.name;
   // console.log(networkDict);
   // const network = networkDict["name"];
-  console.log(network)
-  const f = log_color_fns[0];
-  const contract = await makeContract(network, function (...args) {
-    console.log(`[${f(network)}]`.padEnd(25, ' '), ...args);
-  });
+  // console.log(network)
+  // const f = log_color_fns[0];
+  // const contract = await makeContract(network, function (...args) {
+  //   console.log(`[${f(network)}]`.padEnd(25, ' '), ...args);
+  // });
+  const web3 = new Web3(config[network].ws);
+  const Contract = web3.eth.Contract;
 
+  const account = web3.eth.accounts.privateKeyToAccount('0x'+config.account);
+  web3.eth.accounts.wallet.add(account);
+
+
+  const contract = new Contract(getAbi('ChatGPTClient'), '0x2701f107CF6B085258D2ee96b4Cf74FA505572f4', {
+    from: account.address,
+  });
   makeRequest(contract)
 }
 
