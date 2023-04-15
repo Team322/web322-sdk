@@ -37,7 +37,7 @@ abstract contract Web322Client {
 
     function sendWeb322Request(
         Web322.Request memory req,
-        uint256 amount,
+        uint256 amount
     ) internal {
         // bytes memory encodedRequest = abi.encodeWithSignature(
         //     "request(Web322.Request calldata req)", req);
