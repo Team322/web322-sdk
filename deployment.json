@@ -1,7 +1,7 @@
 {
     "sepolia": {
         "Web322Endpoint": "0x85208E3eC4A283d3F738be315760085b636987C3",
-        "ChatGPTClient": "0x3DdbEBb1c51Dbd9053DaBDE837B65266904DE29F"
+        "ChatGPTClient": "0xfD1f921b34c9AA7b14220246a5A8ad65a388dDF9"
     },
     "polygon": {
         "Web322Endpoint": "0x73A8a6c0dAD76B795098905a3f32641b8eAefFfF"
