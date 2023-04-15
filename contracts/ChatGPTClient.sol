@@ -23,14 +23,14 @@ contract ChatGPTClient is Web322Client {
             n_request,
             openai_endpoint
         );
-        
+        // header, param and data
         // parameters only as string
         request.add("prompt", prompt);
         request.add("temperature", "0");
         request.add("logprobs", "false");
 
         n_request += 1;
-
+        
         sendWeb322Request(request, amount);
     } 
 

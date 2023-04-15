@@ -19,21 +19,20 @@ library Web322 {
         uint256 id
         // address callbackAddr
     ) pure public returns (Request memory) {
-        Buffer.buffer memory params;
-        Buffer.init(params, defaultBufferSize);
+        // Buffer.buffer memory params;
+        Buffer.init(self.params, defaultBufferSize);
         self.id = id;
         // self.callbackAddr = callbackAddr;
-        self.params = params;
+        // self.params = params;
         return self;
     }
 
     function add(
         Request memory self,
-        string calldata key,
-        string calldata value
-    ) pure public returns (Request memory) {
+        string memory key,
+        string memory value
+    ) internal pure {
         self.params.encodeString(key);
         self.params.encodeString(value);
-        return self;
     }
 }

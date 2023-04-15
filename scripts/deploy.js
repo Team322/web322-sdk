@@ -42,6 +42,8 @@ async function main() {
   // return;
   await chatgptclient.deployed();
 
+  console.log(chatgptclient);
+
   console.log(
     `Lock with ${ethers.utils.formatEther(
       lockedAmount

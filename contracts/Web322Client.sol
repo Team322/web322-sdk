@@ -2,7 +2,6 @@
 pragma solidity ^0.8.9;
 
 import "./Web322.sol";
-import "./Web322Endpoint.sol";
 
 abstract contract Web322Client {
     using Web322 for Web322.Request;
@@ -14,6 +13,8 @@ abstract contract Web322Client {
 
     event Web2Request(Web322.Request request);
     event FulfilledWeb2Request(uint256 requestId);
+    event BufferPlain(bytes data);
+    event BufferEncoded(bytes data);
 
     function setAddresses(
         address oracle_addr,
@@ -36,11 +37,13 @@ abstract contract Web322Client {
 
     function sendWeb322Request(
         Web322.Request memory req,
-        uint256 amount
+        uint256 amount,
     ) internal {
         // bytes memory encodedRequest = abi.encodeWithSignature(
         //     "request(Web322.Request calldata req)", req);
-        bytes memory encodedRequest = abi.encodeWithSelector(0x6ac67648, [req]);
+        bytes memory encodedRequest = abi.encodeWithSelector(0xffc79065, req.id, req.params.buf);
+        emit BufferPlain(req.params.buf);
+        emit BufferEncoded(encodedRequest);
         pendingRequests[n_request] = _oracle_addr;
         (bool success, ) = payable(_oracle_addr).call{value: amount}(encodedRequest);
         require(success, "Call failed");
