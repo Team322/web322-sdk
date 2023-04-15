@@ -2,6 +2,7 @@
 pragma solidity ^0.8.9;
 
 import "./Web322.sol";
+import "./Web322Endpoint.sol";
 
 abstract contract Web322Client {
     using Web322 for Web322.Request;
@@ -37,8 +38,9 @@ abstract contract Web322Client {
         Web322.Request memory req,
         uint256 amount
     ) internal {
-        bytes memory encodedRequest = abi.encodeWithSignature(
-            "request(Web322.Request calldata req)", req);
+        // bytes memory encodedRequest = abi.encodeWithSignature(
+        //     "request(Web322.Request calldata req)", req);
+        bytes memory encodedRequest = abi.encodeWithSelector(0x6ac67648, [req]);
         pendingRequests[n_request] = _oracle_addr;
         (bool success, ) = payable(_oracle_addr).call{value: amount}(encodedRequest);
         require(success, "Call failed");
