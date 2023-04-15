@@ -6,12 +6,21 @@ import "./Web322.sol";
 abstract contract Web322Client {
     using Web322 for Web322.Request;
 
-    address private constant oracle_addr = 0xDA75E6AA92629eA4D45Aa3D478ecb6d7BE9A3Ab2; 
+    address public _oracle_addr; 
+    address public _admin_addr; 
     mapping(uint256 => address) private pendingRequests;
     uint256 n_request = 0;
 
     event Web2Request(Web322.Request request);
     event FulfilledWeb2Request(uint256 requestId);
+
+    function setAddresses(
+        address oracle_addr,
+        address admin_addr
+    ) internal {
+        _oracle_addr = oracle_addr;
+        _admin_addr = admin_addr;
+    }
 
     function buildWeb2Request(
         uint256 requestId,
@@ -30,13 +39,13 @@ abstract contract Web322Client {
     ) internal {
         bytes memory encodedRequest = abi.encodeWithSignature(
             "request(Web322.Request calldata req)", req);
-        pendingRequests[n_request] = oracle_addr;
-        (bool success, ) = payable(oracle_addr).call{value: amount}(encodedRequest);
+        pendingRequests[n_request] = _oracle_addr;
+        (bool success, ) = payable(_oracle_addr).call{value: amount}(encodedRequest);
         require(success, "Call failed");
     }
 
     modifier recordWeb322Fulfillment(uint256 requestId) {
-        require(msg.sender == oracle_addr, "Source must be the unique oracle of the request");
+        require(msg.sender == _admin_addr, "Source must be the Web322 admin contract");
         delete pendingRequests[requestId];
         emit FulfilledWeb2Request(requestId);
         _;

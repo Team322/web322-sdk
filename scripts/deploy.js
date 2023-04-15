@@ -7,6 +7,22 @@
 const hre = require("hardhat");
 
 async function main() {
+  const adminAddr = "0xDA4e7a6E6FC5605a88Fb5768E9d92A59E8356ca5";
+  const { network } = hre;
+  const networkName = network.name;
+
+  console.log(networkName)
+
+  const fs = require('fs');
+  const path = require('path');
+  const filePath = path.resolve(__dirname, '..', 'deployment.json');
+  const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+
+  console.log(data)
+  console.log(data[networkName])
+
+  const oracleAddr = data[networkName].Web322Endpoint;
+
   const currentTimestampInSeconds = Math.round(Date.now() / 1000);
   const unlockTime = currentTimestampInSeconds + 60;
 
@@ -22,7 +38,7 @@ async function main() {
         Web322: web322.address,
       }
   });
-  const chatgptclient = await ChatGPTClient.deploy();
+  const chatgptclient = await ChatGPTClient.deploy(oracleAddr, adminAddr);
   // return;
   await chatgptclient.deployed();
 

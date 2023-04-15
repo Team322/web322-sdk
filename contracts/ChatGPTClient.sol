@@ -14,6 +14,10 @@ contract ChatGPTClient is Web322Client {
 
     event ChatGPTAnswer(uint256 requestId, string answer);
 
+    constructor(address oracle_addr, address admin_addr) {
+        setAddresses(oracle_addr, admin_addr);
+    }
+
     function requestUnicorn() external payable {
         Web322.Request memory request = buildWeb2Request(
             n_request,
